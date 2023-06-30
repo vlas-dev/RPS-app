@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import IdleComputer from '../assets/IdleComputer.gif';
+import IdlePlayer from '../assets/IdlePlayer.gif';
 
 const Game = () => {
   const [playerLife, setPlayerLife] = useState(100);
@@ -88,7 +90,13 @@ const Game = () => {
                 PLAYER
               </p>
               <div className="bg-blue-700 h-full" style={{ width: `${playerLife}%` }}></div>
+              <img
+      src={IdlePlayer}
+      alt="Idle Player"
+      className="absolute top-8 right-40 h-64 mt-10"
+    />
             </div>
+            
           </div>
           <div className="flex items-center ml-4">
             <div className="bg-blue-700 h-10 w-96 border border-yellow-500 relative">
@@ -99,6 +107,11 @@ const Game = () => {
                 className="bg-red-600 h-full"
                 style={{ width: `${100 - computerLife}%` }}
               ></div>
+              <img
+      src={IdleComputer}
+      alt="Idle Computer"
+      className="absolute top-8 left-40 h-64 mt-10"
+    />
             </div>
           </div>
         </div>
@@ -109,8 +122,19 @@ const Game = () => {
 
       </div>
 
+
+
+      {roundWinner && (
+        <div className="flex justify-center">
+          <p className="text-lg">
+            {updateScoreMessage(roundWinner, playerSelection, computerSelection)}
+          </p>
+        </div>
+      )}
+
+
       <div className="mb-6">
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center mt-96">
           <button
             className="mx-2 font-bold py-2 px-4 rounded"
             onClick={() => handleClick('ROCK')}
@@ -132,13 +156,7 @@ const Game = () => {
         </div>
       </div>
 
-      {roundWinner && (
-        <div className="flex justify-center mb-6">
-          <p className="text-lg">
-            {updateScoreMessage(roundWinner, playerSelection, computerSelection)}
-          </p>
-        </div>
-      )}
+      
 
       {isModalOpen && (
         <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center">

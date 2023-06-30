@@ -25,6 +25,13 @@ const StartScreen = ({ onStart }) => {
 
   return (
     <div className="flex flex-col items-center justify-center">
+      <div className="flex justify-center ">
+  <div>
+    <h1 className="text-3xl italic pt-10 text-center">
+      ROCK PAPER SCISSORS: <br /> JUDGEMENT DAY
+    </h1>
+  </div>
+</div>
       <div className="flex flex-col justify-center py-4"></div>
       <div className="flex flex-col items-center mb-8 mt-8">
         <div className="text-center w-[500px] md:w-[550px] h-[300px] px-10 text-lg md:text-xl">
