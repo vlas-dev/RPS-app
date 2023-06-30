@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-const App = () => {
-  const [playerScore, setPlayerScore] = useState(0);
-  const [computerScore, setComputerScore] = useState(0);
+const Game = () => {
+  const [playerLife, setPlayerLife] = useState(100);
+  const [computerLife, setComputerLife] = useState(100);
   const [roundWinner, setRoundWinner] = useState('');
   const [playerSelection, setPlayerSelection] = useState('');
   const [computerSelection, setComputerSelection] = useState('');
@@ -17,21 +17,21 @@ const App = () => {
       (playerSelection === 'SCISSORS' && computerSelection === 'PAPER') ||
       (playerSelection === 'PAPER' && computerSelection === 'ROCK')
     ) {
-      setPlayerScore(prevScore => {
-        const newScore = prevScore + 1;
-        if (newScore === 5) {
+      setComputerLife(prevLife => {
+        const newLife = prevLife - 20;
+        if (newLife <= 0) {
           setIsModalOpen(true);
         }
-        return newScore;
+        return newLife;
       });
       winner = 'player';
     } else {
-      setComputerScore(prevScore => {
-        const newScore = prevScore + 1;
-        if (newScore === 5) {
+      setPlayerLife(prevLife => {
+        const newLife = prevLife - 20;
+        if (newLife <= 0) {
           setIsModalOpen(true);
         }
-        return newScore;
+        return newLife;
       });
       winner = 'computer';
     }
@@ -53,8 +53,8 @@ const App = () => {
   };
 
   const restartGame = () => {
-    setPlayerScore(0);
-    setComputerScore(0);
+    setPlayerLife(100);
+    setComputerLife(100);
     setRoundWinner('');
     setPlayerSelection('');
     setComputerSelection('');
@@ -64,79 +64,92 @@ const App = () => {
   const updateScoreMessage = (winner, playerSelection, computerSelection) => {
     let message = '';
     if (winner === 'player') {
-      message = `${(playerSelection)} beats ${computerSelection}`;
+      message = `${playerSelection} BEATS ${computerSelection}!`;
     } else if (winner === 'computer') {
-      message = `${(playerSelection)} is beaten by ${computerSelection}`;
+      message = `${playerSelection} IS BEATEN BY ${computerSelection}!`;
     } else {
-      message = `${(playerSelection)} ties with ${computerSelection}`;
+      message = 'TIE!';
     }
     return message;
   };
 
-
   return (
-    <div className="min-h-screen">
-      <div className="flex justify-center py-8">
-      </div>
-      <div className="mx-auto mt-8 max-w-3xl">
-        <div className="mb-6">
-          <h3 className="flex justify-center text-lg">The first to score 5 points wins the round!</h3>
-          <div className="flex justify-center mt-4">
-            <button
-              className="mx-2 font-bold py-2 px-4 rounded"
-              onClick={() => handleClick('ROCK')}
-            >
-              Rock
-            </button>
-            <button
-              className="mx-2 font-bold py-2 px-4 rounded"
-              onClick={() => handleClick('PAPER')}
-            >
-              Paper
-            </button>
-            <button
-              className="mx-2 font-bold py-2 px-4 rounded"
-              onClick={() => handleClick('SCISSORS')}
-            >
-              Scissors
-            </button>
-          </div>
-        </div>
-      
-        <div className="mb-6">
-          <div className="flex justify-center">
-          <h2 className="text-2xl font-bold mr-2">Score</h2>
+    <div>
 
-            <div className="flex items-center">
-              <p className="text-lg mr-2">Player:</p>
-              <p className="text-lg font-bold">{playerScore}</p>
+      <h3 className="flex justify-center text-lg py-10">
+      Best of five wins!
+      </h3>
+
+      <div className="mb-6">
+        <div className="flex justify-center">
+          <div className="flex items-center">
+            <div className="bg-red-600 h-10 w-96 border border-yellow-500 relative">
+              <p className="text-lg mr-2 italic absolute left-2 top-1/2 transform -translate-y-1/2">
+                PLAYER
+              </p>
+              <div className="bg-blue-700 h-full" style={{ width: `${playerLife}%` }}></div>
             </div>
-            <div className="flex items-center ml-4">
-              <p className="text-lg mr-2">Computer:</p>
-              <p className="text-lg font-bold">{computerScore}</p>
+          </div>
+          <div className="flex items-center ml-4">
+            <div className="bg-blue-700 h-10 w-96 border border-yellow-500 relative">
+              <p className="text-lg mr-2 italic absolute right-2 top-1/2 transform -translate-y-1/2">
+                COMPUTER
+              </p>
+              <div
+                className="bg-red-600 h-full"
+                style={{ width: `${100 - computerLife}%` }}
+              ></div>
             </div>
           </div>
         </div>
-        {roundWinner && (
-          <div className="flex justify-center mb-6">
-            <p className="text-lg">{updateScoreMessage(roundWinner, playerSelection, computerSelection)}</p>
-          </div>
-        )}
+
+
+
+
+
       </div>
+
+      <div className="mb-6">
+        <div className="flex justify-center mt-4">
+          <button
+            className="mx-2 font-bold py-2 px-4 rounded"
+            onClick={() => handleClick('ROCK')}
+          >
+            Rock
+          </button>
+          <button
+            className="mx-2 font-bold py-2 px-4 rounded"
+            onClick={() => handleClick('PAPER')}
+          >
+            Paper
+          </button>
+          <button
+            className="mx-2 font-bold py-2 px-4 rounded"
+            onClick={() => handleClick('SCISSORS')}
+          >
+            Scissors
+          </button>
+        </div>
+      </div>
+
+      {roundWinner && (
+        <div className="flex justify-center mb-6">
+          <p className="text-lg">
+            {updateScoreMessage(roundWinner, playerSelection, computerSelection)}
+          </p>
+        </div>
+      )}
+
       {isModalOpen && (
         <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center">
           <div className="bg-red-500 rounded-lg p-8">
-            <h2 className="text-2xl font-bold mb-4">Game Over</h2>
             <p className="text-lg">
-              {playerScore > computerScore
-                ? 'Congratulations! You won the game!'
-                : 'Better luck next time! The computer won the game.'}
+              {playerLife > computerLife
+                ? 'Player wins!'
+                : 'Computer wins.'}
             </p>
-            <button
-              className="mt-4 font-bold py-2 px-4 rounded"
-              onClick={restartGame}
-            >
-              Restart Game
+            <button className="mt-4 font-bold py-2 px-4 rounded" onClick={restartGame}>
+              Play Again
             </button>
           </div>
         </div>
@@ -145,4 +158,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Game;
