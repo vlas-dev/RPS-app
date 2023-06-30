@@ -76,8 +76,8 @@ const Game = () => {
   return (
     <div>
 
-      <h3 className="flex justify-center text-lg py-10">
-      Best of five wins!
+      <h3 className="flex justify-center text-center text-lg py-10">
+      First to win five rounds decides humanity's fate!
       </h3>
 
       <div className="mb-6">
@@ -145,8 +145,8 @@ const Game = () => {
           <div className="bg-red-500 rounded-lg p-8">
             <p className="text-lg">
               {playerLife > computerLife
-                ? 'Player wins!'
-                : 'Computer wins.'}
+                ? 'Player wins! Humanity is saved from termination!'
+                : 'Computer wins. Humanity is doomed.'}
             </p>
             <button className="mt-4 font-bold py-2 px-4 rounded" onClick={restartGame}>
               Play Again
