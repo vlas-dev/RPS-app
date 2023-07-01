@@ -37,7 +37,7 @@ const StartScreen = ({ onStart }) => {
         <div className="text-center w-[500px] md:w-[550px] h-[300px] px-10 text-lg md:text-xl">
           <p style={{ whiteSpace: 'pre-line' }}>{displayText}</p>
         </div>
-        <button className="px-6 py-3 text-5xl mt-4 border border-white" onClick={onStart}>
+        <button className="px-6 py-3 text-3xl mt-4 border border-white" onClick={onStart}>
           Start
         </button>
       </div>

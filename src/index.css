@@ -2,11 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Silkscreen&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Silkscreen&display=swap");
 @layer base {
-    body {
-        font-family: 'Silkscreen', cursive;
-    }
+  body {
+    font-family: "Silkscreen", cursive;
+  }
 }
 
-
+* {
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
