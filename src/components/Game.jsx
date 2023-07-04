@@ -7,9 +7,12 @@ import HurtComputer from "../assets/HurtComputerBig.gif";
 import HurtPlayer from "../assets/HurtPlayerBig.gif";
 import ShootComputer from "../assets/ShootComputerBig.gif";
 import ShootPlayer from "../assets/ShootPlayerBig.gif";
-import defaultRock from "../assets/defaultRock.png";
-import defaultPaper from "../assets/defaultPaper.png";
-import defaultScissors from "../assets/defaultScissors.png";
+import playerRock from "../assets/playerRock.png";
+import playerPaper from "../assets/playerPaper.png";
+import playerScissors from "../assets/playerScissors.png";
+import computerRock from "../assets/computerRock.png";
+import computerPaper from "../assets/computerPaper.png";
+import computerScissors from "../assets/computerScissors.png";
 
 const Game = () => {
   const [playerLife, setPlayerLife] = useState(100);
@@ -32,7 +35,7 @@ const Game = () => {
       setIsComputerHurt(false);
       setIsPlayerShooting(false);
       setIsComputerShooting(false);
-    }, 1000);
+    }, 900);
 
     return () => clearTimeout(resetGIFs);
   }, [isPlayerHurt, isComputerHurt, isPlayerShooting, isComputerShooting]);
@@ -116,25 +119,24 @@ const Game = () => {
     if (isModalOpen) {
       return null; // Don't render the message when the modal is open
     }
-    let message = "";
+
     if (winner === "player") {
-      message = `${playerSelection} BEATS ${computerSelection}!`;
+      return "YOU WIN!";
     } else if (winner === "computer") {
-      message = `${playerSelection} IS BEATEN BY ${computerSelection}!`;
+      return "YOU LOSE!";
     } else {
-      message = "TIE!";
+      return "TIE!";
     }
-    return message;
   };
 
   return (
-    <div className="scale-50 md:scale-75 lg:scale-100 h-[700px]">
+    <div className="h-[500px] md:h-screen flex-col items-center">
       <div className="flex justify-center text-center text-lg py-10">
         Best of five decides humanity's fate!
       </div>
 
-      <div className="mb-6">
-        <div className="flex justify-center md:gap-32">
+      <div className="scale-50 md:scale-75 lg:scale-100  mb-6">
+        <div className="flex justify-center gap-10 md:gap-32">
           <div className="flex items-center">
             {/* Player container */}
             <div className="relative">
@@ -157,12 +159,13 @@ const Game = () => {
                       : IdlePlayer
                   }
                   alt="Player"
-                  className="absolute top-8 h-72 mt-10"
+                  className="absolute top-32 right-24 scale-150"
                 />
               </div>
             </div>
           </div>
-          <div className="flex items-center ml-4">
+
+          <div className="flex items-center">
             {/* Computer container */}
             <div className="relative">
               <div className="bg-blue-700 h-10 w-96 border border-yellow-500 relative">
@@ -184,7 +187,7 @@ const Game = () => {
                       : IdleComputer
                   }
                   alt="Computer"
-                  className="absolute top-14 h-64 mt-10"
+                  className="absolute top-32 left-32 scale-150"
                 />
               </div>
             </div>
@@ -193,69 +196,119 @@ const Game = () => {
       </div>
 
       {!isModalOpen && (
-        <div className="mb-6 flex justify-center">
-          {/* Buttons container */}
-          <div className="flex relative top-96">
+        <>
+          <div className="flex justify-center relative top-52 md:top-96 m-6">
             <button
-              className="mx-2 font-bold py-2 px-4 rounded"
+              className="border border-white px-5 py-3 "
               onClick={() => handleClick("ROCK")}
               disabled={areButtonsDisabled}
             >
-              <div className="border border-white px-5 py-6">
-                <img src={defaultRock} alt="Rock" className="w-16" />
-              </div>
+              <img
+                src={playerRock}
+                alt="Rock"
+                className={`w-14 ${
+                  playerSelection === "ROCK" ? "brightness-100" : "brightness-0"
+                }`}
+              />
             </button>
             <button
-              className="mx-2 font-bold py-2 px-4 rounded"
+              className="border border-white px-2 py-3"
               onClick={() => handleClick("PAPER")}
               disabled={areButtonsDisabled}
             >
-              <div className="border border-white  px-3 py-6">
-                <img src={defaultPaper} alt="Paper" className="w-20" />
-              </div>
+              <img
+                src={playerPaper}
+                alt="Paper"
+                className={`w-20 ${
+                  playerSelection === "PAPER"
+                    ? "brightness-100"
+                    : "brightness-0"
+                }`}
+              />
             </button>
             <button
-              className="mx-2 font-bold py-2 px-4 rounded"
+              className="border border-white px-2 py-3 mr-4 md:mr-20"
               onClick={() => handleClick("SCISSORS")}
               disabled={areButtonsDisabled}
             >
-              <div className="border border-white px-3 py-6" >
-                <img src={defaultScissors} alt="Scissors" className="w-20" />
-              </div>
+              <img
+                src={playerScissors}
+                alt="Scissors"
+                className={`w-20 ${
+                  playerSelection === "SCISSORS"
+                    ? "brightness-100"
+                    : "brightness-0"
+                }`}
+              />
             </button>
+
+
+            <div className="border border-white px-5 py-3 ml-4 md:ml-20">
+              <img
+                src={computerRock}
+                alt="Computer Rock"
+                className={`w-14 ${
+                  computerSelection === "ROCK"
+                    ? "brightness-100"
+                    : "brightness-0"
+                }`}
+              />{" "}
+            </div>
+            <div className="border border-white px-2 py-3">
+              <img
+                src={computerPaper}
+                alt="Computer Paper"
+                className={`w-20 ${
+                  computerSelection === "PAPER"
+                    ? "brightness-100"
+                    : "brightness-0"
+                }`}
+              />{" "}
+            </div>
+            <div className="border border-white px-2 py-3">
+              <img
+                src={computerScissors}
+                alt="Computer Scissors"
+                className={`w-20 ${
+                  computerSelection === "SCISSORS"
+                    ? "brightness-100"
+                    : "brightness-0"
+                }`}
+              />{" "}
+            </div>
           </div>
-        </div>
+        </>
       )}
 
       {roundWinner && (
-        <div className="flex justify-center relative top-52">
-          <p className="text-lg">
+        <div className="flex justify-center z-50 relative bottom-24 md:bottom-14 scale-50 md:scale-75 lg:scale-100 ">
+          <div className="text-4xl text-center">
             {updateScoreMessage(
               roundWinner,
               playerSelection,
               computerSelection
             )}
-          </p>
+          </div>
         </div>
       )}
 
       {isModalOpen && (
-        <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center">
+        <div className="flex justify-center">
           {/* Modal content */}
-          <div className="p-8 text-center">
-            <p className="text-lg">
+          <div className="md:p-8 text-center z-50">
+            <p className="md:text-3xl">
               {playerLife > computerLife ? (
                 <p>
-                  Player wins! <br /> Humanity is saved!
+                  Victory! <br /> Humanity is saved!
                 </p>
               ) : (
                 <p>
-                  Computer wins. <br /> Humanity is doomed.
+                  Defeat. <br /> Humanity is doomed.
                 </p>
               )}
             </p>
             <button
-              className="mt-14 font-bold py-2 px-4 border border-white"
+              className="mt-4 md:mt-14 font-bold py-2 px-4 border border-white md:text-xl"
               onClick={restartGame}
             >
               Play Again
