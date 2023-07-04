@@ -16,3 +16,9 @@
   -moz-user-drag: none;
   -o-user-drag: none;
 }
+
+/* .background-start{
+  background-image: url('./assets/image.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+} */

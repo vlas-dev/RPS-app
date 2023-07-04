@@ -130,7 +130,7 @@ const Game = () => {
   };
 
   return (
-    <div className="h-[500px] md:h-screen flex-col items-center">
+    <div className="h-screen flex-col items-center">
       <div className="flex justify-center text-center text-lg py-10">
         Best of five decides humanity's fate!
       </div>

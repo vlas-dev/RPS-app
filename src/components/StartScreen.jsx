@@ -24,7 +24,7 @@ const StartScreen = ({ onStart }) => {
   }, [displayText, fullText]);
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className=" h-screen flex flex-col items-center justify-center background-start">
       <div className="flex justify-center ">
         <div>
           <h1 className="text-3xl italic pt-10 text-center">
