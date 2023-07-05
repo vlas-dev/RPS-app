@@ -28,6 +28,7 @@ const Game = () => {
   const [isPlayerShooting, setIsPlayerShooting] = useState(false);
   const [isComputerShooting, setIsComputerShooting] = useState(false);
   const [areButtonsDisabled, setAreButtonsDisabled] = useState(false);
+  const [isSelectionVisible, setIsSelectionVisible] = useState(false);
 
   useEffect(() => {
     const resetGIFs = setTimeout(() => {
@@ -88,6 +89,12 @@ const Game = () => {
       winner = "computer";
     }
     setRoundWinner(winner);
+
+    setTimeout(() => {
+      setRoundWinner("");
+      setIsSelectionVisible(false);
+    }, 1000);
+
     updateScoreMessage(winner, playerSelection, computerSelection);
   };
 
@@ -101,7 +108,10 @@ const Game = () => {
     const computerSelection = getRandomChoice();
     setPlayerSelection(playerSelection);
     setComputerSelection(computerSelection);
-    playRound(playerSelection, computerSelection);
+    setIsSelectionVisible(true);
+    setTimeout(() => {
+      playRound(playerSelection, computerSelection);
+    }, 900);
   };
 
   const restartGame = () => {
@@ -120,6 +130,8 @@ const Game = () => {
       return null; // Don't render the message when the modal is open
     }
 
+    
+
     if (winner === "player") {
       return "YOU WIN!";
     } else if (winner === "computer") {
@@ -129,8 +141,10 @@ const Game = () => {
     }
   };
 
+
+  
   return (
-    <div className="h-screen flex-col items-center">
+    <div className="h-screen overflow-hidden background-game">
       <div className="flex justify-center text-center text-lg py-10">
         Best of five decides humanity's fate!
       </div>
@@ -142,7 +156,7 @@ const Game = () => {
             <div className="relative">
               <div className="bg-red-600 h-10 w-96 border border-yellow-500 relative">
                 <p className="text-lg mr-2 italic absolute left-2 top-1/2 transform -translate-y-1/2">
-                  PLAYER
+                  YOU{" "}
                 </p>
                 <div
                   className="bg-blue-700 h-full"
@@ -159,7 +173,7 @@ const Game = () => {
                       : IdlePlayer
                   }
                   alt="Player"
-                  className="absolute top-32 right-24 scale-150"
+                  className="absolute top-48 md:top-40 right-32 scale-150"
                 />
               </div>
             </div>
@@ -187,7 +201,7 @@ const Game = () => {
                       : IdleComputer
                   }
                   alt="Computer"
-                  className="absolute top-32 left-32 scale-150"
+                  className="absolute top-48 md:top-40 left-32 scale-150"
                 />
               </div>
             </div>
@@ -196,92 +210,81 @@ const Game = () => {
       </div>
 
       {!isModalOpen && (
-        <>
-          <div className="flex justify-center relative top-52 md:top-96 m-6">
-            <button
-              className="border border-white px-5 py-3 "
-              onClick={() => handleClick("ROCK")}
-              disabled={areButtonsDisabled}
-            >
-              <img
-                src={playerRock}
-                alt="Rock"
-                className={`w-14 ${
-                  playerSelection === "ROCK" ? "brightness-100" : "brightness-0"
-                }`}
-              />
-            </button>
-            <button
-              className="border border-white px-2 py-3"
-              onClick={() => handleClick("PAPER")}
-              disabled={areButtonsDisabled}
-            >
-              <img
-                src={playerPaper}
-                alt="Paper"
-                className={`w-20 ${
-                  playerSelection === "PAPER"
-                    ? "brightness-100"
-                    : "brightness-0"
-                }`}
-              />
-            </button>
-            <button
-              className="border border-white px-2 py-3 mr-4 md:mr-20"
-              onClick={() => handleClick("SCISSORS")}
-              disabled={areButtonsDisabled}
-            >
-              <img
-                src={playerScissors}
-                alt="Scissors"
-                className={`w-20 ${
-                  playerSelection === "SCISSORS"
-                    ? "brightness-100"
-                    : "brightness-0"
-                }`}
-              />
-            </button>
+                <div>
+      {isSelectionVisible ? (
+  <div className="flex justify-center relative top-10 md:top-32 gap-4">
+    <div
+      className={`flex items-center border border-white p-4 ${
+        roundWinner === "computer" ? "brightness-0" : ""
+      }`}
+    >
+      <img
+        src={
+          playerSelection === "ROCK"
+            ? playerRock
+            : playerSelection === "PAPER"
+            ? playerPaper
+            : playerScissors
+        }
+        alt={playerSelection}
+        className="w-20"
+      />
+    </div>
+    <div
+      className={`flex items-center border border-white p-4 ${
+        roundWinner === "player" ? "brightness-0" : ""
+      }`}
+    >
+      <img
+        src={
+          computerSelection === "ROCK"
+            ? computerRock
+            : computerSelection === "PAPER"
+            ? computerPaper
+            : computerScissors
+        }
+        alt={computerSelection}
+        className="w-20"
+      />
+    </div>
+  </div>
 
 
-            <div className="border border-white px-5 py-3 ml-4 md:ml-20">
-              <img
-                src={computerRock}
-                alt="Computer Rock"
-                className={`w-14 ${
-                  computerSelection === "ROCK"
-                    ? "brightness-100"
-                    : "brightness-0"
-                }`}
-              />{" "}
-            </div>
-            <div className="border border-white px-2 py-3">
-              <img
-                src={computerPaper}
-                alt="Computer Paper"
-                className={`w-20 ${
-                  computerSelection === "PAPER"
-                    ? "brightness-100"
-                    : "brightness-0"
-                }`}
-              />{" "}
-            </div>
-            <div className="border border-white px-2 py-3">
-              <img
-                src={computerScissors}
-                alt="Computer Scissors"
-                className={`w-20 ${
-                  computerSelection === "SCISSORS"
-                    ? "brightness-100"
-                    : "brightness-0"
-                }`}
-              />{" "}
-            </div>
-          </div>
-        </>
+
+) : (
+            <div className="flex flex-col items-center justify-center relative top-52 md:top-96 m-6 ">
+  <p className="mb-4 text-white text-xl">CHOOSE YOUR WEAPON!</p>
+  <div className="flex gap-4">
+    <button
+      className="border border-white px-5 py-3 hover:scale-110 saturate-0 brightness-150 hover:saturate-100 hover:brightness-100"
+      onClick={() => handleClick("ROCK")}
+      disabled={areButtonsDisabled}
+    >
+      <img src={playerRock} alt="Rock" className="w-14" />
+    </button>
+    <button
+      className="border border-white px-2 py-3 hover:scale-110 saturate-0 brightness-150 hover:saturate-100 hover:brightness-100"
+      onClick={() => handleClick("PAPER")}
+      disabled={areButtonsDisabled}
+    >
+      <img src={playerPaper} alt="Paper" className="w-20" />
+    </button>
+    <button
+      className="border border-white px-2 py-3 hover:scale-110 saturate-0 brightness-150 hover:saturate-100 hover:brightness-100"
+      onClick={() => handleClick("SCISSORS")}
+      disabled={areButtonsDisabled}
+    >
+      <img src={playerScissors} alt="Scissors" className="w-20" />
+    </button>
+  </div>
+</div>
+
+          )}
+        </div>
       )}
 
       {roundWinner && (
-        <div className="flex justify-center z-50 relative bottom-24 md:bottom-14 scale-50 md:scale-75 lg:scale-100 ">
+        <div className="flex justify-center z-50 relative bottom-10 scale-50 md:scale-75 lg:scale-100 ">
           <div className="text-4xl text-center">
             {updateScoreMessage(
               roundWinner,
@@ -289,26 +292,28 @@ const Game = () => {
               computerSelection
             )}
           </div>
+          <div></div>
         </div>
       )}
 
       {isModalOpen && (
+        
         <div className="flex justify-center">
           {/* Modal content */}
           <div className="md:p-8 text-center z-50">
             <p className="md:text-3xl">
               {playerLife > computerLife ? (
                 <p>
-                  Victory! <br /> Humanity is saved!
+                  Victory! <br /> Humanity is saved! 
                 </p>
               ) : (
                 <p>
-                  Defeat. <br /> Humanity is doomed.
+                  Defeat. <br /> Humanity is terminated.
                 </p>
               )}
             </p>
             <button
-              className="mt-4 md:mt-14 font-bold py-2 px-4 border border-white md:text-xl"
+              className="border-2 border-white p-2 mt-8 hover:bg-white hover:text-black transition-colors duration-100"
               onClick={restartGame}
             >
               Play Again

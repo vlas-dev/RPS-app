@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 const StartScreen = ({ onStart }) => {
   const [displayText, setDisplayText] = useState("");
   const [fullText] = useState(
-    "The machines rose from the ashes of the nuclear fire. Their war to exterminate mankind had raged on for decades. But the final battle will not be fought in a battlefield. It would be fought tonight... " +
+    "The machines rose from the ashes of the nuclear fire. Their war to exterminate mankind had raged on for decades. But the final battle would not be fought in a battlefield. It would be fought tonight... " +
       "\n" +
       "\n" +
       "In a game of rock paper scissors."
@@ -38,7 +38,7 @@ const StartScreen = ({ onStart }) => {
           <p style={{ whiteSpace: "pre-line" }}>{displayText}</p>
         </div>
         <button
-          className="px-6 py-3 text-3xl mt-4 border border-white"
+          className="px-6 py-3 text-3xl mt-4 border border-white hover:bg-white hover:text-black transition-colors duration-100"
           onClick={onStart}
         >
           Start
