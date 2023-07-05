@@ -91,7 +91,6 @@ const Game = () => {
     setRoundWinner(winner);
 
     setTimeout(() => {
-      setRoundWinner("");
       setIsSelectionVisible(false);
     }, 1000);
 
@@ -108,6 +107,8 @@ const Game = () => {
     const computerSelection = getRandomChoice();
     setPlayerSelection(playerSelection);
     setComputerSelection(computerSelection);
+    setRoundWinner("");
+    
     setIsSelectionVisible(true);
     setTimeout(() => {
       playRound(playerSelection, computerSelection);
@@ -126,7 +127,7 @@ const Game = () => {
   };
 
   const updateScoreMessage = (winner, playerSelection, computerSelection) => {
-    if (isModalOpen) {
+    if (isModalOpen || !isSelectionVisible) {
       return null; // Don't render the message when the modal is open
     }
 
@@ -209,9 +210,8 @@ const Game = () => {
         </div>
       </div>
 
-      {!isModalOpen && (
-                <div>
-      {isSelectionVisible ? (
+      
+      {isSelectionVisible || isModalOpen ? (
   <div className="flex justify-center relative top-10 md:top-32 gap-4">
     <div
       className={`flex items-center border border-white p-4 ${
@@ -251,7 +251,7 @@ const Game = () => {
 
 
 
-) : (
+) : !isModalOpen && (
             <div className="flex flex-col items-center justify-center relative top-52 md:top-96 m-6 ">
   <p className="mb-4 text-white text-xl">CHOOSE YOUR WEAPON!</p>
   <div className="flex gap-4">
@@ -280,8 +280,7 @@ const Game = () => {
 </div>
 
           )}
-        </div>
-      )}
+       
 
       {roundWinner && (
         <div className="flex justify-center z-50 relative bottom-10 scale-50 md:scale-75 lg:scale-100 ">
@@ -300,8 +299,8 @@ const Game = () => {
         
         <div className="flex justify-center">
           {/* Modal content */}
-          <div className="md:p-8 text-center z-50">
-            <p className="md:text-3xl">
+          <div className=" text-center z-50">
+            <p className="md:text-3xl relative bottom-16">
               {playerLife > computerLife ? (
                 <p>
                   Victory! <br /> Humanity is saved! 
@@ -313,10 +312,10 @@ const Game = () => {
               )}
             </p>
             <button
-              className="border-2 border-white p-2 mt-8 hover:bg-white hover:text-black transition-colors duration-100"
+              className="border-2 border-white p-2 mt-16 hover:bg-white hover:text-black relative top-10  text-3xl "
               onClick={restartGame}
             >
-              Play Again
+              REPLAY
             </button>
           </div>
         </div>

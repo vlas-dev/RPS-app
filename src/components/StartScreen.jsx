@@ -38,7 +38,7 @@ const StartScreen = ({ onStart }) => {
           <p style={{ whiteSpace: "pre-line" }}>{displayText}</p>
         </div>
         <button
-          className="px-6 py-3 text-3xl mt-4 border border-white hover:bg-white hover:text-black transition-colors duration-100"
+          className="px-6 py-3 text-3xl mt-4 border border-white hover:bg-white hover:text-black"
           onClick={onStart}
         >
           Start
