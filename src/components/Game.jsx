@@ -256,11 +256,11 @@ const Game = () => {
   <p className="mb-4 text-white text-xl">CHOOSE YOUR WEAPON!</p>
   <div className="flex gap-4">
     <button
-      className="border border-white px-5 py-3 hover:scale-110 saturate-0 brightness-150 hover:saturate-100 hover:brightness-100"
+      className="border border-white px-2 py-3 hover:scale-110 saturate-0 brightness-150 hover:saturate-100 hover:brightness-100"
       onClick={() => handleClick("ROCK")}
       disabled={areButtonsDisabled}
     >
-      <img src={playerRock} alt="Rock" className="w-14" />
+      <img src={playerRock} alt="Rock" className="w-20" />
     </button>
     <button
       className="border border-white px-2 py-3 hover:scale-110 saturate-0 brightness-150 hover:saturate-100 hover:brightness-100"

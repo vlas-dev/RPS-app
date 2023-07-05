@@ -10,7 +10,7 @@ const App = () => {
   };
 
   return (
-    <div className=" bg-[#191a1c] text-white">
+    <div className=" bg-[#4e5d7c] text-white">
 
               
 
