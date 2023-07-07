@@ -13,8 +13,18 @@ import playerScissors from "../assets/playerScissors.png";
 import computerRock from "../assets/computerRock.png";
 import computerPaper from "../assets/computerPaper.png";
 import computerScissors from "../assets/computerScissors.png";
+import soundOn from "../assets/soundOn.png";
+import soundOff from "../assets/soundOff.png";
+import gameMusic from "../sounds/gameMusic.mp3";
+import youWinSound from "../sounds/youWin.mp3";
+import youLoseSound from "../sounds/youLose.mp3";
+import playerShootSound from "../sounds/playerShoot.mp3";
+import computerShootSound from "../sounds/computerShoot.mp3";
+import clashSound from "../sounds/clashSound.mp3";
+import tieSound from "../sounds/tieSound.mp3";
+import startSound from "../sounds/start.wav";
 
-const Game = () => {
+const Game = ({ isMuted, toggleMusicMute }) => {
   const [playerLife, setPlayerLife] = useState(100);
   const [computerLife, setComputerLife] = useState(100);
   const [roundWinner, setRoundWinner] = useState("");
@@ -29,6 +39,28 @@ const Game = () => {
   const [isComputerShooting, setIsComputerShooting] = useState(false);
   const [areButtonsDisabled, setAreButtonsDisabled] = useState(false);
   const [isSelectionVisible, setIsSelectionVisible] = useState(false);
+  const [isGameOver, setIsGameOver] = useState(false);
+
+  useEffect(() => {
+    let backgroundAudio = new Audio(gameMusic);
+    backgroundAudio.loop = true;
+
+    const handleCanPlayThrough = () => {
+      if (!isMuted && !isGameOver) {
+        backgroundAudio.play();
+      }
+    };
+
+    backgroundAudio.addEventListener("canplaythrough", handleCanPlayThrough);
+
+    return () => {
+      backgroundAudio.removeEventListener(
+        "canplaythrough",
+        handleCanPlayThrough
+      );
+      backgroundAudio.pause();
+    };
+  }, [isMuted, isGameOver]);
 
   useEffect(() => {
     const resetGIFs = setTimeout(() => {
@@ -51,6 +83,7 @@ const Game = () => {
     let winner = "";
     if (playerSelection === computerSelection) {
       winner = "tie";
+      playSoundEffect(tieSound);
     } else if (
       (playerSelection === "ROCK" && computerSelection === "SCISSORS") ||
       (playerSelection === "SCISSORS" && computerSelection === "PAPER") ||
@@ -59,10 +92,14 @@ const Game = () => {
       setComputerLife((prevLife) => {
         const newLife = prevLife - 20;
         if (newLife <= 0) {
-          setIsModalOpen(true);
           setIsComputerDead(true);
           setIsPlayerShooting(true);
           setIsComputerShooting(false); // Stop computer shooting GIF
+          setIsGameOver(true);
+          setTimeout(() => {
+            setIsModalOpen(true);
+            playSoundEffect(youWinSound);
+          }, 1000);
         } else {
           setIsPlayerShooting(true);
           setIsComputerHurt(true);
@@ -71,14 +108,19 @@ const Game = () => {
         return newLife;
       });
       winner = "player";
+      playSoundEffect(playerShootSound);
     } else {
       setPlayerLife((prevLife) => {
         const newLife = prevLife - 20;
         if (newLife <= 0) {
-          setIsModalOpen(true);
           setIsPlayerDead(true);
           setIsPlayerShooting(false); // Stop player shooting GIF
           setIsComputerShooting(true);
+          setIsGameOver(true);
+          setTimeout(() => {
+            setIsModalOpen(true);
+            playSoundEffect(youLoseSound);
+          }, 1000);
         } else {
           setIsPlayerHurt(true);
           setIsComputerShooting(true);
@@ -87,6 +129,7 @@ const Game = () => {
         return newLife;
       });
       winner = "computer";
+      playSoundEffect(computerShootSound);
     }
     setRoundWinner(winner);
 
@@ -108,11 +151,19 @@ const Game = () => {
     setPlayerSelection(playerSelection);
     setComputerSelection(computerSelection);
     setRoundWinner("");
-    
+
     setIsSelectionVisible(true);
+    playSoundEffect(clashSound);
     setTimeout(() => {
       playRound(playerSelection, computerSelection);
     }, 900);
+  };
+
+  const playSoundEffect = (soundFile) => {
+    if (!isMuted) {
+      const soundEffect = new Audio(soundFile);
+      soundEffect.play();
+    }
   };
 
   const restartGame = () => {
@@ -124,14 +175,13 @@ const Game = () => {
     setIsModalOpen(false);
     setIsPlayerDead(false);
     setIsComputerDead(false);
+    setIsGameOver(false);
   };
 
   const updateScoreMessage = (winner, playerSelection, computerSelection) => {
     if (isModalOpen || !isSelectionVisible) {
       return null; // Don't render the message when the modal is open
     }
-
-    
 
     if (winner === "player") {
       return "YOU WIN!";
@@ -142,15 +192,13 @@ const Game = () => {
     }
   };
 
-
-  
   return (
-    <div className="h-screen overflow-hidden background-game">
+    <div className="h-screen overflow-hidden">
       <div className="flex justify-center text-center text-lg py-10">
         Best of five decides humanity's fate!
       </div>
 
-      <div className="scale-50 md:scale-75 lg:scale-100  mb-6">
+      <div className="scale-50 md:scale-75 lg:scale-100mb-6">
         <div className="flex justify-center gap-10 md:gap-32">
           <div className="flex items-center">
             {/* Player container */}
@@ -210,77 +258,84 @@ const Game = () => {
         </div>
       </div>
 
-      
-      {isSelectionVisible || isModalOpen ? (
-  <div className="flex justify-center relative top-10 md:top-32 gap-4">
-    <div
-      className={`flex items-center border border-white p-4 ${
-        roundWinner === "computer" ? "brightness-0" : ""
-      }`}
-    >
-      <img
-        src={
-          playerSelection === "ROCK"
-            ? playerRock
-            : playerSelection === "PAPER"
-            ? playerPaper
-            : playerScissors
-        }
-        alt={playerSelection}
-        className="w-20"
-      />
-    </div>
-    <div
-      className={`flex items-center border border-white p-4 ${
-        roundWinner === "player" ? "brightness-0" : ""
-      }`}
-    >
-      <img
-        src={
-          computerSelection === "ROCK"
-            ? computerRock
-            : computerSelection === "PAPER"
-            ? computerPaper
-            : computerScissors
-        }
-        alt={computerSelection}
-        className="w-20"
-      />
-    </div>
-  </div>
+      <button
+        className="fixed bottom-10 right-8 cursor-pointer z-50"
+        onClick={toggleMusicMute}
+      >
+        <img
+          src={isMuted ? soundOff : soundOn}
+          alt={isMuted ? "Sound Off" : "Sound On"}
+          className="w-8 h-8"
+        />
+      </button>
 
-
-
-) : !isModalOpen && (
-            <div className="flex flex-col items-center justify-center relative top-52 md:top-96 m-6 ">
-  <p className="mb-4 text-white text-xl">CHOOSE YOUR WEAPON!</p>
-  <div className="flex gap-4">
-    <button
-      className="border border-white px-2 py-3 hover:scale-110 saturate-0 brightness-150 hover:saturate-100 hover:brightness-100"
-      onClick={() => handleClick("ROCK")}
-      disabled={areButtonsDisabled}
-    >
-      <img src={playerRock} alt="Rock" className="w-20" />
-    </button>
-    <button
-      className="border border-white px-2 py-3 hover:scale-110 saturate-0 brightness-150 hover:saturate-100 hover:brightness-100"
-      onClick={() => handleClick("PAPER")}
-      disabled={areButtonsDisabled}
-    >
-      <img src={playerPaper} alt="Paper" className="w-20" />
-    </button>
-    <button
-      className="border border-white px-2 py-3 hover:scale-110 saturate-0 brightness-150 hover:saturate-100 hover:brightness-100"
-      onClick={() => handleClick("SCISSORS")}
-      disabled={areButtonsDisabled}
-    >
-      <img src={playerScissors} alt="Scissors" className="w-20" />
-    </button>
-  </div>
-</div>
-
-          )}
-       
+      {isSelectionVisible ? (
+        <div className="flex justify-center relative top-64 md:top-32 gap-4">
+          <div
+            className={`flex items-center border border-white p-4 ${
+              roundWinner === "computer" ? "brightness-0" : ""
+            }`}
+          >
+            <img
+              src={
+                playerSelection === "ROCK"
+                  ? playerRock
+                  : playerSelection === "PAPER"
+                  ? playerPaper
+                  : playerScissors
+              }
+              alt={playerSelection}
+              className="w-20"
+            />
+          </div>
+          <div
+            className={`flex items-center border border-white p-4 ${
+              roundWinner === "player" ? "brightness-0" : ""
+            }`}
+          >
+            <img
+              src={
+                computerSelection === "ROCK"
+                  ? computerRock
+                  : computerSelection === "PAPER"
+                  ? computerPaper
+                  : computerScissors
+              }
+              alt={computerSelection}
+              className="w-20"
+            />
+          </div>
+        </div>
+      ) : (
+        !isModalOpen && (
+          <div className="flex flex-col items-center justify-center relative top-52 md:top-96 m-6 ">
+            <p className="mb-4 text-white text-xl">CHOOSE YOUR WEAPON!</p>
+            <div className="flex gap-4">
+              <button
+                className="border border-white px-2 py-3 saturate-0 brightness-150 hover:saturate-100 hover:brightness-100"
+                onClick={() => handleClick("ROCK")}
+                disabled={areButtonsDisabled}
+              >
+                <img src={playerRock} alt="Rock" className="w-20" />
+              </button>
+              <button
+                className="border border-white px-2 py-3 saturate-0 brightness-150 hover:saturate-100 hover:brightness-100"
+                onClick={() => handleClick("PAPER")}
+                disabled={areButtonsDisabled}
+              >
+                <img src={playerPaper} alt="Paper" className="w-20" />
+              </button>
+              <button
+                className="border border-white px-2 py-3 saturate-0 brightness-150 hover:saturate-100 hover:brightness-100"
+                onClick={() => handleClick("SCISSORS")}
+                disabled={areButtonsDisabled}
+              >
+                <img src={playerScissors} alt="Scissors" className="w-20" />
+              </button>
+            </div>
+          </div>
+        )
+      )}
 
       {roundWinner && (
         <div className="flex justify-center z-50 relative bottom-10 scale-50 md:scale-75 lg:scale-100 ">
@@ -296,14 +351,13 @@ const Game = () => {
       )}
 
       {isModalOpen && (
-        
         <div className="flex justify-center">
           {/* Modal content */}
           <div className=" text-center z-50">
-            <p className="md:text-3xl relative bottom-16">
+            <p className="md:text-3xl relative top-10">
               {playerLife > computerLife ? (
                 <p>
-                  Victory! <br /> Humanity is saved! 
+                  Victory! <br /> Humanity is saved!
                 </p>
               ) : (
                 <p>
@@ -312,8 +366,12 @@ const Game = () => {
               )}
             </p>
             <button
-              className="border-2 border-white p-2 mt-16 hover:bg-white hover:text-black relative top-10  text-3xl "
-              onClick={restartGame}
+              className="border-2 border-white p-2 mt-16 hover:bg-white hover:text-black relative md:top-10  md:text-3xl "
+              onClick={() => {
+                restartGame();
+
+                playSoundEffect(startSound);
+              }}
             >
               REPLAY
             </button>
