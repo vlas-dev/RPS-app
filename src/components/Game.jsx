@@ -16,6 +16,8 @@ import computerScissors from "../assets/computerScissors.png";
 import soundOn from "../assets/soundOn.png";
 import soundOff from "../assets/soundOff.png";
 import gameMusic from "../sounds/gameMusic.mp3";
+import roundWon from "../sounds/roundWon.mp3";
+import roundLost from "../sounds/roundLost.mp3";
 import youWinSound from "../sounds/youWin.mp3";
 import youLoseSound from "../sounds/youLose.mp3";
 import playerShootSound from "../sounds/playerShoot.mp3";
@@ -69,16 +71,16 @@ const Game = ({ isMuted, toggleMusicMute }) => {
       setIsPlayerShooting(false);
       setIsComputerShooting(false);
     }, 900);
-
+  
     return () => clearTimeout(resetGIFs);
   }, [isPlayerHurt, isComputerHurt, isPlayerShooting, isComputerShooting]);
-
+  
   useEffect(() => {
     setAreButtonsDisabled(
       isPlayerHurt || isComputerHurt || isPlayerShooting || isComputerShooting
     );
   }, [isPlayerHurt, isComputerHurt, isPlayerShooting, isComputerShooting]);
-
+  
   const playRound = (playerSelection, computerSelection) => {
     let winner = "";
     if (playerSelection === computerSelection) {
@@ -89,55 +91,63 @@ const Game = ({ isMuted, toggleMusicMute }) => {
       (playerSelection === "SCISSORS" && computerSelection === "PAPER") ||
       (playerSelection === "PAPER" && computerSelection === "ROCK")
     ) {
-      setComputerLife((prevLife) => {
-        const newLife = prevLife - 20;
-        if (newLife <= 0) {
-          setIsComputerDead(true);
-          setIsPlayerShooting(true);
-          setIsComputerShooting(false); // Stop computer shooting GIF
-          setIsGameOver(true);
-          setTimeout(() => {
-            setIsModalOpen(true);
-            playSoundEffect(youWinSound);
-          }, 1000);
-        } else {
-          setIsPlayerShooting(true);
-          setIsComputerHurt(true);
-          setIsComputerShooting(false); // Stop computer shooting GIF
-        }
-        return newLife;
-      });
       winner = "player";
-      playSoundEffect(playerShootSound);
+      playSoundEffect(roundWon);
     } else {
-      setPlayerLife((prevLife) => {
-        const newLife = prevLife - 20;
-        if (newLife <= 0) {
-          setIsPlayerDead(true);
-          setIsPlayerShooting(false); // Stop player shooting GIF
-          setIsComputerShooting(true);
-          setIsGameOver(true);
-          setTimeout(() => {
-            setIsModalOpen(true);
-            playSoundEffect(youLoseSound);
-          }, 1000);
-        } else {
-          setIsPlayerHurt(true);
-          setIsComputerShooting(true);
-          setIsPlayerShooting(false); // Stop player shooting GIF
-        }
-        return newLife;
-      });
       winner = "computer";
-      playSoundEffect(computerShootSound);
+      playSoundEffect(roundLost);
     }
     setRoundWinner(winner);
-
+  
     setTimeout(() => {
       setIsSelectionVisible(false);
     }, 1000);
-
+  
     updateScoreMessage(winner, playerSelection, computerSelection);
+    
+    setTimeout(() => {
+      if (winner === "player") {
+        setComputerLife((prevLife) => {
+          const newLife = prevLife - 20;
+          if (newLife <= 0) {
+            setIsComputerDead(true);
+            setIsPlayerShooting(true);
+            playSoundEffect(playerShootSound);
+            setIsGameOver(true);
+            setTimeout(() => {
+              setIsModalOpen(true);
+              playSoundEffect(youWinSound);
+            }, 1000);
+          } else {
+            setIsPlayerShooting(true);
+            playSoundEffect(playerShootSound);
+            setIsComputerHurt(true);
+            setIsComputerShooting(false); // Stop computer shooting GIF
+          }
+          return newLife;
+        });
+      } else if (winner === "computer") {
+        setPlayerLife((prevLife) => {
+          const newLife = prevLife - 20;
+          if (newLife <= 0) {
+            setIsPlayerDead(true);
+            setIsComputerShooting(true);
+            playSoundEffect(computerShootSound);
+            setIsGameOver(true);
+            setTimeout(() => {
+              setIsModalOpen(true);
+              playSoundEffect(youLoseSound);
+            }, 1000);
+          } else {
+            setIsPlayerHurt(true);
+            setIsComputerShooting(true);
+            playSoundEffect(computerShootSound);
+            setIsPlayerShooting(false); // Stop player shooting GIF
+          }
+          return newLife;
+        });
+      }
+    }, 1000);
   };
 
   const getRandomChoice = () => {
@@ -307,7 +317,7 @@ const Game = ({ isMuted, toggleMusicMute }) => {
           </div>
         </div>
       ) : (
-        !isModalOpen && (
+        !isModalOpen && !isPlayerHurt && !isPlayerShooting && !isComputerHurt && !isComputerShooting  && !isGameOver &&  (
           <div className="flex flex-col items-center justify-center relative top-52 md:top-96 m-6 ">
             <p className="mb-4 text-white text-xl">CHOOSE YOUR WEAPON!</p>
             <div className="flex gap-4">
@@ -378,6 +388,7 @@ const Game = ({ isMuted, toggleMusicMute }) => {
           </div>
         </div>
       )}
+      
     </div>
   );
 };
