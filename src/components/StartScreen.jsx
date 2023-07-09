@@ -122,7 +122,7 @@ const StartScreen = ({ isMuted, toggleMusicMute, onStart }) => {
         )}
 
         <button
-          className="fixed bottom-10 right-8 cursor-pointer z-50"
+          className="fixed bottom-6 md:bottom-10 right-8 cursor-pointer"
           onClick={toggleMusicMute}
         >
           <img

@@ -25,7 +25,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="bg-[#191a1c] text-white">
+    <div className="bg-black text-white">
       <div>
         {gameStarted ? (
           <Game isMuted={isMuted} toggleMusicMute={toggleMusicMute} />
