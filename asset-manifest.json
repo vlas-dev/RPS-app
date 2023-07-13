@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/RPS-app/static/css/main.a382ee58.css",
+    "main.js": "/RPS-app/static/js/main.cafb6698.js",
+    "static/media/gameMusic.mp3": "/RPS-app/static/media/gameMusic.5da20da15ac7cdb06bdd.mp3",
+    "static/media/theme.mp3": "/RPS-app/static/media/theme.eaf9f72a6cf7a9979525.mp3",
+    "static/media/ShootComputerBig.gif": "/RPS-app/static/media/ShootComputerBig.749667bdc188e29eb348.gif",
+    "static/media/DeadComputerBig.gif": "/RPS-app/static/media/DeadComputerBig.3a34a3eb4ae1eccf4762.gif",
+    "static/media/IdlePlayerBig.gif": "/RPS-app/static/media/IdlePlayerBig.ee7f6bb629987ec2158c.gif",
+    "static/media/ShootPlayerBig.gif": "/RPS-app/static/media/ShootPlayerBig.380623ae6dbfb3a68922.gif",
+    "static/media/HurtPlayerBig.gif": "/RPS-app/static/media/HurtPlayerBig.fc5b61c65fb5ee24e959.gif",
+    "static/media/HurtComputerBig.gif": "/RPS-app/static/media/HurtComputerBig.c2783cae6941c935e206.gif",
+    "static/media/DeadPlayerBig.gif": "/RPS-app/static/media/DeadPlayerBig.d70fc4872d10f9964c4c.gif",
+    "static/media/defeat.mp3": "/RPS-app/static/media/defeat.48d4c022ebf28f094469.mp3",
+    "static/media/victory.mp3": "/RPS-app/static/media/victory.5a0b5eab737afc7993ec.mp3",
+    "static/media/playerShoot.mp3": "/RPS-app/static/media/playerShoot.3872139caa671b89ea9b.mp3",
+    "static/media/computerShoot.mp3": "/RPS-app/static/media/computerShoot.aab81260bf6299190e2c.mp3",
+    "static/media/IdleComputerBig.gif": "/RPS-app/static/media/IdleComputerBig.284e303098688659d564.gif",
+    "static/media/computerPaper.png": "/RPS-app/static/media/computerPaper.0cd49b29b0c51af570a1.png",
+    "static/media/roundLost.mp3": "/RPS-app/static/media/roundLost.eb5660ecfa7707724cac.mp3",
+    "static/media/roundWon.mp3": "/RPS-app/static/media/roundWon.06f8c954162168210d41.mp3",
+    "static/media/computerScissors.png": "/RPS-app/static/media/computerScissors.99a832a667a89ef1e224.png",
+    "static/media/start.mp3": "/RPS-app/static/media/start.80d8186dc78aada145cd.mp3",
+    "static/media/clashSound.mp3": "/RPS-app/static/media/clashSound.c387396cd7378e046a01.mp3",
+    "static/media/tieSound.mp3": "/RPS-app/static/media/tieSound.247c0b7a51028ca4e383.mp3",
+    "static/media/key.mp3": "/RPS-app/static/media/key.c2b9e43d0f93e1129903.mp3",
+    "index.html": "/RPS-app/index.html",
+    "main.a382ee58.css.map": "/RPS-app/static/css/main.a382ee58.css.map",
+    "main.cafb6698.js.map": "/RPS-app/static/js/main.cafb6698.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a382ee58.css",
+    "static/js/main.cafb6698.js"
+  ]
+}
