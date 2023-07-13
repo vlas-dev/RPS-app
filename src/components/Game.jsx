@@ -211,7 +211,7 @@ const Game = ({ isMuted, toggleMusicMute }) => {
   
   const showMessage = (message) => {
     const popup = document.createElement("div");
-    popup.className = "border border-white text-white p-8 z-10 fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:mt-10";
+    popup.className = "border border-white text-white lg:text-xl p-8 z-10 fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:mt-10";
     popup.textContent = message;
     document.body.appendChild(popup);
   
