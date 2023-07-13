@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import startSound from "../sounds/start.wav";
+import startSound from "../sounds/start.mp3";
 import startMusic from "../sounds/theme.mp3";
-import keySound from "../sounds/key.wav";
+import keySound from "../sounds/key.mp3";
 import soundOn from "../assets/soundOn.png";
 import soundOff from "../assets/soundOff.png";
 
@@ -28,10 +28,10 @@ const StartScreen = ({ isMuted, toggleMusicMute, onStart }) => {
       "\n" +
       "But the final battle would not be fought in a battlefield. " +
       "\n" +
-      "It would be fought tonight... " +
+      "It would be fought here. " +
       "\n" +
       "\n" +
-      "In a game of rock paper scissors."
+      "In a game of rock paper scissors..."
   );
   const [playClicked, setPlayClicked] = useState(false);
 
