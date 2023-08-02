@@ -30,6 +30,9 @@ import backgroundImage from "../assets/gameStageBig.png";
 import linkedin from "../assets/linkedin.png";
 import github from "../assets/github.png";
 import mail from "../assets/mail.png";
+import startMusic from "../sounds/theme.mp3";
+import keySound from "../sounds/key.mp3";
+
 
 const PreloadAssets = ({ setIsLoading }) => {
   useEffect(() => {
@@ -58,6 +61,8 @@ const PreloadAssets = ({ setIsLoading }) => {
       ];
 
       const sounds = [
+        startMusic,
+        keySound,
         gameMusic,
         roundWon,
         roundLost,
