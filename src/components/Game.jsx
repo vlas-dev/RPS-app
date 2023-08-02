@@ -32,6 +32,7 @@ import github from "../assets/github.png";
 import mail from "../assets/mail.png";
 
 const Game = ({ isMuted, toggleMusicMute }) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [playerLife, setPlayerLife] = useState(100);
   const [computerLife, setComputerLife] = useState(100);
   const [roundWinner, setRoundWinner] = useState("");
@@ -46,6 +47,53 @@ const Game = ({ isMuted, toggleMusicMute }) => {
   const [isComputerShooting, setIsComputerShooting] = useState(false);
   const [isSelectionVisible, setIsSelectionVisible] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
+
+
+  const preloadAssets = async () => {
+    const images = [
+      IdleComputer, IdlePlayer, DeadComputer, DeadPlayer, HurtComputer,
+      HurtPlayer, ShootComputer, ShootPlayer, playerRock, playerPaper,
+      playerScissors, computerRock, computerPaper, computerScissors,
+      soundOn, soundOff, backgroundImage, linkedin, github, mail,
+    ];
+  
+    const sounds = [
+      gameMusic, roundWon, roundLost, youWinSound,
+      youLoseSound, playerShootSound, computerShootSound, clashSound,
+      tieSound, startSound,
+    ];
+  
+    const imagePromises = images.map((image) =>
+      new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = image;
+        img.onload = resolve;
+        img.onerror = reject;
+      })
+    );
+  
+    const soundPromises = sounds.map((sound) =>
+      new Promise((resolve, reject) => {
+        const audio = new Audio();
+        audio.src = sound;
+        audio.oncanplaythrough = resolve;
+        audio.onerror = reject;
+      })
+    );
+  
+    await Promise.all([...imagePromises, ...soundPromises]);
+  
+    // Set loading to false once all assets are loaded
+    setIsLoading(false);
+  };
+
+  // Step 3: Run preload function inside useEffect
+  useEffect(() => {
+    preloadAssets();
+  }, []);
+
+
+
 
   useEffect(() => {
     let backgroundAudio = new Audio(gameMusic);
@@ -220,6 +268,14 @@ const Game = ({ isMuted, toggleMusicMute }) => {
 
   return (
     <div className="h-screen overflow-hidden flex md:items-center justify-center">
+
+
+{isLoading ? (
+        <div className="text-3xl">Loading...</div>
+      ) : (
+        <div>
+
+
       <div>
         <div
           className="md:scale-50 lg:scale-75 h-[400px] w-[700px] md:h-[700px] md:w-[1500px] items-center mb-10 md:mb-0 border border-white bg-cover bg-no-repeat2"
@@ -475,6 +531,13 @@ const Game = ({ isMuted, toggleMusicMute }) => {
           />
         </button>
       </div>
+
+
+      </div>
+      )}
+
+
+
     </div>
   );
 };

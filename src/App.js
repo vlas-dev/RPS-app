@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Game from "./components/Game";
 import StartScreen from "./components/StartScreen";
-import PreloadAssets from "./components/PreloadAssets";
 
 const App = () => {
   const [gameStarted, setGameStarted] = useState(false);
@@ -27,7 +26,6 @@ const App = () => {
   return (
     <div className="bg-black text-white">
       <div>
-        <PreloadAssets />
         {gameStarted ? (
           <Game isMuted={isMuted} toggleMusicMute={toggleMusicMute} />
         ) : (
