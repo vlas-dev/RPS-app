@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/RPS-app/static/css/main.a4b174e2.css",
-    "main.js": "/RPS-app/static/js/main.80b685af.js",
+    "main.js": "/RPS-app/static/js/main.ab136c36.js",
     "static/media/gameMusic.mp3": "/RPS-app/static/media/gameMusic.5da20da15ac7cdb06bdd.mp3",
     "static/media/theme.mp3": "/RPS-app/static/media/theme.eaf9f72a6cf7a9979525.mp3",
     "static/media/ShootComputerBig.gif": "/RPS-app/static/media/ShootComputerBig.749667bdc188e29eb348.gif",
@@ -26,10 +26,10 @@
     "static/media/key.mp3": "/RPS-app/static/media/key.c2b9e43d0f93e1129903.mp3",
     "index.html": "/RPS-app/index.html",
     "main.a4b174e2.css.map": "/RPS-app/static/css/main.a4b174e2.css.map",
-    "main.80b685af.js.map": "/RPS-app/static/js/main.80b685af.js.map"
+    "main.ab136c36.js.map": "/RPS-app/static/js/main.ab136c36.js.map"
   },
   "entrypoints": [
     "static/css/main.a4b174e2.css",
-    "static/js/main.80b685af.js"
+    "static/js/main.ab136c36.js"
   ]
 }
