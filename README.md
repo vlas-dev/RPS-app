@@ -2,7 +2,7 @@
 
 Welcome to the repository for my RPS Retro Fighting Game! This is a classic Rock Paper Scissors game reimagined as a retro fighting game with custom assets and sprites. It features a parody of the Terminator movies universe where humans fight machines and humanity's fate is decided by a game of Rock Paper Scissors. 
 
-Check out the live version by clicking [here](https://vlas-dev.github.io/weather-app/).
+Check out the live version by clicking [here](https://vlas-dev.github.io/RPS-app/).
 
 
 ![Screenshot of the game](screenshot.jpg)
